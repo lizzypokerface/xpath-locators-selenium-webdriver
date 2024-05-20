@@ -84,6 +84,8 @@ driver.quit()
 
 ## XPath Basics
 
+Note: All the path examples below refer to this [Test Page](https://practicetestautomation.com/practice-test-exceptions/).
+
 ### XPath Terminology
 
 * **Relationship of Nodes:** 
@@ -220,3 +222,108 @@ Used to select elements that do not match the given criteria.
 * Can also be combined with other functions.
   + **Example:** `//tag[not(contains(@attribute,'partial value'))]`
   + **Example:** `//tag[not(starts-with(text(),'beginning'))]`
+
+## Advanced XPath
+
+### XPath Operators
+
+XPath provides various operators, including `+` , `-` , `*` , `div` , `=` , `!=` , `<` , `>` , `or` , and `and` . Among these, the `or` and `and` operators are particularly useful for creating flexible and robust XPath expressions. Sometimes different locators are needed for different browsers or mobile devices. For instance, you might need:
+
+* `btn = By.XPATH("//div[@id='btn']")`
+* `safariBtn = By.XPATH("//div[@id='btn']/div")`
+
+In such cases, you can use the `or` and `and` operators to handle different scenarios effectively.
+
+#### Example usage of `or` and `and` operators:
+
+* `//button[@name='Add' or @name='Remove']`
+* `//button[@name='Add' or @id='remove_btn']`
+* `//button[@class and @name='Save']`
+* `//button[@class='btn' and not(@style='display: none;')]`
+* Using two sets of predicates: `//button[@class='btn'][not(@style='display: none;')]`
+
+### XPath Wildcards
+
+Wildcards in XPath are useful for creating expressions that match unknown XML nodes.
+
+#### General Syntax:
+
+* `//*[@*='value']`
+  + The first `*` matches any element node.
+  + The second `*` matches any attribute node.
+
+#### Example:
+
+* Match any attribute node: `//button[@*='btn']`
+
+### XPath Axes
+
+XPath axes are essential for navigating through complex XML documents, especially when elements do not have attributes, such as `<tr>` , `<td>` , `<ul>` , or `<li>` elements.
+
+#### Types of XPath Axes:
+
+* `ancestor`
+* `descendant`
+* `parent`
+* `following-sibling`
+* `preceding-sibling`
+
+#### General Syntax:
+
+* `axisname::nodetest[predicate]`
+
+#### Examples:
+
+* Find the parent `div` with no attributes: `//div[@id='row1']/parent::div`
+* Replace `//section/ol[2]/li[2]` with: `//h5[contains(text(),'Test case 2')]/following-sibling::ol/li[2]`
+* Find the heading based on text under the heading: `//li[text()='Verify text saved']/parent::ol/preceding-sibling::h5[1]`
+
+[XPath Axes: Ancestor, Following Sibling, Preceding](https://www.scientecheasy.com/2019/08/xpath-axes.html/#google_vignette)
+
+### Finding Elements Relative to Other Elements
+
+You can locate parent or child elements using relative XPath expressions.
+
+#### Examples:
+
+* Find a `div` element relative to a child `input` element: `//div[./input]`
+* Find the parent `div` of an `input` element: `//input/parent::div`
+* Find an `input` element relative to a parent `div` with `id='row2'`: `//input[parent::div[@id='row2']]`
+  + Simpler expression: `//div[@id='row2']/input`
+
+### Selecting Several Paths
+
+Sometimes, combining two XPath expressions into one is necessary, especially when you want to get a list of elements that have different locators.
+
+#### Examples:
+
+* `//div[@class='row'] | //input[@id='text']`
+* Choose all `h2` and `h5` elements: `//h2 | //h5`
+* Choose all buttons and input fields under `row1`: `//div[@id='row1']/button | //div[@id='row1']/input`
+* Choose all headers and paragraphs: `//h2 | //h5 | //p`
+
+### SVG Elements
+
+Standard XPath formulas do not work with SVG elements due to different rules, but they can still be managed.
+
+#### Examples:
+
+* This won't work: `//rect[@y='11']`
+* Use a wildcard for the tag name: `//*[@y='11']`
+* Use the `name()` function to locate the element:
+  + `//*[name()='rect' and @y='11']`
+  + `//*[name()='symbol' and @id='icon-amazon']/*[name()='path']`
+
+[SVG Explained](https://www.youtube.com/watch?v=emFMHH2Bfvo)
+
+### Stopping Page Load
+
+To inspect HTML elements that appear briefly, such as a ‘loading’ element, you can use Chrome DevTools to set breakpoints.
+
+#### Example:
+
+* Set an event listener breakpoint: 
+  + Chrome DevTools → Sources → Event Listener Breakpoints → Mouse → Check 'click'
+* Step through the debugger until the element appears.
+* Click the ‘Select element in page’ button in the top left.
+* Inspect the loading element on the screen.
