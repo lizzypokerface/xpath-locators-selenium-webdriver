@@ -1,6 +1,7 @@
 # xpath-locators-selenium-webdriver
 
-Creating XPath Locators for Selenium WebDriver: A Practical Guide [-->source](https://www.udemy.com/course/xpath-locators-for-selenium/learn/lecture/22800907?start=0#overview)
+Creating XPath Locators for Selenium WebDriver: A Practical Guide  
+[source](https://www.udemy.com/course/xpath-locators-for-selenium/learn/lecture/22800907?start=0#overview)
 
 ## Introduction to XPath
 
